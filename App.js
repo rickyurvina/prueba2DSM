@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -29,9 +29,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import DatePicker from 'react-native-date-picker';
+
 const App: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
+  const [date, setDate] = useState(new Date())
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -42,21 +44,16 @@ const App: () => Node = () => {
   const hasErrors = () => {
     return !text.includes('@');
   };
+
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />;
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <View>
         <TextInput label="Email" value={text} onChangeText={onChangeText} />
         <HelperText type="error" visible={hasErrors()}>
-          Email address is invalid!
+          Campo email invalido
         </HelperText>
-      </View>
-      <View>
-        <List.Item
-          title="First Item"
-          description="Item description"
-          left={props => <List.Icon {...props} icon="folder" />}
-        />
       </View>
       <View>
         <Card>
@@ -75,16 +72,18 @@ const App: () => Node = () => {
             <Button>Ok</Button>
           </Card.Actions>
         </Card>
+
+        <DatePicker date={date} onDateChange={setDate} />
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
+  // sectionContainer: {
+  //   marginTop: 32,
+  //   paddingHorizontal: 24,
+  // },
 });
 
 export default App;
